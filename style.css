@@ -1,0 +1,510 @@
+/* ============================================================
+   BIMSHIRE CONCIERGE — Quote Generator
+   Aesthetic: Refined luxury travel editorial
+   Fonts: Cormorant Garamond (display) + DM Sans (UI) + DM Mono (output)
+   ============================================================ */
+
+:root {
+    --sand:       #f5f0e8;
+    --cream:      #faf8f4;
+    --warm-white: #ffffff;
+    --ink:        #1a1714;
+    --ink-light:  #3d3630;
+    --muted:      #8c8278;
+    --rule:       #e0d8cc;
+    --accent:     #b5572b;
+    --accent-dim: #d4845a;
+    --green:      #2e6b4f;
+    --green-dim:  #e8f2ed;
+    --gold:       #c9973a;
+    --panel-bg:   #f8f5f0;
+    --shadow-sm:  0 2px 8px rgba(26,23,20,0.06);
+    --shadow-md:  0 8px 32px rgba(26,23,20,0.10);
+    --radius:     10px;
+    --radius-sm:  6px;
+    --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    background: var(--sand);
+    color: var(--ink);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ---- LAYOUT ---- */
+.page-wrap {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    flex: 1;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 32px 32px 48px;
+    gap: 28px;
+    align-items: start;
+}
+
+/* ---- HEADER ---- */
+.site-header {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 0 32px;
+    position: relative;
+    overflow: hidden;
+}
+
+.header-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 28px 0 24px;
+    display: flex;
+    align-items: baseline;
+    gap: 28px;
+    position: relative;
+    z-index: 1;
+}
+
+.wordmark {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+}
+
+.wordmark-main {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    font-size: 2.6rem;
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    color: var(--cream);
+}
+
+.wordmark-sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 2px;
+}
+
+.header-tagline {
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 400;
+    padding-left: 28px;
+    border-left: 1px solid #333;
+}
+
+.header-deco {
+    position: absolute;
+    right: -60px;
+    top: -60px;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    border: 60px solid rgba(181,87,43,0.08);
+    pointer-events: none;
+}
+
+/* ---- PANELS ---- */
+.panel {
+    background: var(--warm-white);
+    border-radius: var(--radius);
+    border: 1px solid var(--rule);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+.form-panel {
+    padding: 32px;
+}
+
+.output-panel {
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+    top: 28px;
+}
+
+/* ---- MODE TOGGLE ---- */
+.mode-toggle-wrap {
+    margin-bottom: 28px;
+}
+
+.mode-toggle {
+    display: inline-flex;
+    background: var(--panel-bg);
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    padding: 4px;
+    position: relative;
+    gap: 2px;
+}
+
+.mode-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.83rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    padding: 8px 18px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: color var(--transition), background var(--transition);
+    position: relative;
+    z-index: 1;
+}
+
+.mode-btn.active {
+    background: var(--warm-white);
+    color: var(--ink);
+    box-shadow: var(--shadow-sm);
+}
+
+/* ---- FORM FIELDS ---- */
+.field-group {
+    margin-bottom: 22px;
+}
+
+.field-label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 8px;
+}
+
+.label-hint {
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--muted);
+    font-size: 0.78rem;
+}
+
+.sub-label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-bottom: 5px;
+    font-weight: 400;
+}
+
+.field-input {
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.93rem;
+    color: var(--ink);
+    background: var(--panel-bg);
+    border: 1.5px solid var(--rule);
+    border-radius: var(--radius-sm);
+    padding: 10px 13px;
+    transition: border-color var(--transition), box-shadow var(--transition);
+    outline: none;
+    appearance: none;
+}
+
+.field-input:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(181,87,43,0.10);
+    background: var(--warm-white);
+}
+
+.field-input::placeholder { color: #bbb; }
+
+.field-error {
+    display: block;
+    font-size: 0.75rem;
+    color: #c0392b;
+    margin-top: 4px;
+    min-height: 1em;
+}
+
+.two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+/* ---- OCCUPANCY CHECKS ---- */
+.occupancy-checks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.occ-check {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: var(--ink-light);
+    cursor: pointer;
+    background: var(--panel-bg);
+    border: 1.5px solid var(--rule);
+    border-radius: var(--radius-sm);
+    padding: 7px 13px;
+    transition: border-color var(--transition), background var(--transition);
+    user-select: none;
+}
+
+.occ-check:hover { border-color: var(--accent-dim); }
+
+.occ-check input[type="checkbox"] {
+    accent-color: var(--accent);
+    width: 15px;
+    height: 15px;
+}
+
+/* ---- HOTEL CARDS ---- */
+.hotel-card {
+    background: var(--panel-bg);
+    border: 1.5px solid var(--rule);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    margin-bottom: 12px;
+    animation: slideIn 0.2s ease;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.hotel-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.hotel-card-title {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.btn-remove {
+    font-size: 0.75rem;
+    color: #c0392b;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: background var(--transition);
+}
+.btn-remove:hover { background: #fdf0ef; }
+
+.hotel-name-row { margin-bottom: 10px; }
+
+.hotel-custom-row {
+    margin-top: 8px;
+    display: none;
+}
+.hotel-custom-row.show { display: block; }
+
+/* Occupancy inputs inside hotel card */
+.occ-inputs-grid {
+    margin-top: 12px;
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+}
+.occ-inputs-grid.show { display: flex; }
+
+.occ-row {
+    background: var(--warm-white);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-sm);
+    padding: 12px;
+}
+
+.occ-row-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-light);
+    margin-bottom: 8px;
+}
+
+.occ-row-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+}
+
+.occ-sub {
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-bottom: 4px;
+}
+
+/* ---- BUTTONS ---- */
+.btn-ghost {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--accent);
+    border: 1.5px dashed var(--accent-dim);
+    background: transparent;
+    border-radius: var(--radius-sm);
+    padding: 9px 16px;
+    cursor: pointer;
+    width: 100%;
+    transition: background var(--transition), border-color var(--transition);
+}
+.btn-ghost:hover { background: rgba(181,87,43,0.05); border-style: solid; }
+.btn-ghost:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.btn-generate {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--cream);
+    background: var(--ink);
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 14px 24px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background var(--transition), transform var(--transition);
+}
+.btn-generate:hover { background: #2d2520; transform: translateY(-1px); }
+.btn-generate:active { transform: translateY(0); }
+
+/* ---- OUTPUT PANEL ---- */
+.output-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 22px;
+    border-bottom: 1px solid var(--rule);
+    background: var(--panel-bg);
+}
+
+.output-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.btn-copy {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--ink-light);
+    background: var(--warm-white);
+    border: 1.5px solid var(--rule);
+    border-radius: var(--radius-sm);
+    padding: 6px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: border-color var(--transition), background var(--transition);
+}
+.btn-copy:hover { border-color: var(--ink); background: var(--sand); }
+
+.output-body {
+    font-family: 'DM Mono', 'Courier New', monospace;
+    font-size: 0.82rem;
+    line-height: 1.75;
+    color: var(--ink);
+    padding: 24px;
+    white-space: pre-wrap;
+    min-height: 480px;
+    overflow-y: auto;
+}
+
+.output-placeholder {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--muted);
+    font-style: normal;
+    margin-top: 40px;
+    text-align: center;
+    line-height: 1.7;
+}
+.output-placeholder em { font-style: italic; color: var(--ink-light); }
+
+.copy-toast {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background: var(--ink);
+    color: var(--cream);
+    font-size: 0.78rem;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 20px;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.25s, transform 0.25s;
+    pointer-events: none;
+}
+.copy-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.output-panel { position: relative; }
+
+/* ---- UTILITIES ---- */
+.hidden { display: none !important; }
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 1024px) {
+    .main-grid {
+        grid-template-columns: 1fr;
+        padding: 20px;
+    }
+    .output-panel { position: static; }
+}
+
+@media (max-width: 640px) {
+    .site-header { padding: 0 16px; }
+    .header-inner { flex-direction: column; gap: 6px; }
+    .header-tagline { padding-left: 0; border-left: none; }
+    .main-grid { padding: 12px; gap: 16px; }
+    .form-panel { padding: 20px; }
+    .two-col { grid-template-columns: 1fr; }
+    .occ-row-grid { grid-template-columns: 1fr 1fr; }
+    .wordmark-main { font-size: 2rem; }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    select { font-size: 16px; } /* prevent iOS zoom */
+}

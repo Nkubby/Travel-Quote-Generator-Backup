@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bimshire Concierge — Quote Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="page-wrap">
+
+        <!-- HEADER -->
+        <header class="site-header">
+            <div class="header-inner">
+                <div class="wordmark">
+                    <span class="wordmark-main">Bimshire</span>
+                    <span class="wordmark-sub">Concierge</span>
+                </div>
+                <p class="header-tagline">Package Quotation System</p>
+            </div>
+            <div class="header-deco"></div>
+        </header>
+
+        <main class="main-grid">
+
+            <!-- LEFT: FORM PANEL -->
+            <section class="panel form-panel">
+
+                <!-- MODE TOGGLE -->
+                <div class="mode-toggle-wrap">
+                    <div class="mode-toggle">
+                        <button class="mode-btn active" id="btnStandard" onclick="setMode('standard')">Standard</button>
+                        <button class="mode-btn" id="btnGroup" onclick="setMode('group')">Group / Occupancy</button>
+                        <span class="mode-indicator" id="modeIndicator"></span>
+                    </div>
+                </div>
+
+                <form id="quoteForm" onsubmit="return false;">
+
+                    <!-- DESTINATION -->
+                    <div class="field-group">
+                        <label class="field-label" for="destination">Destination</label>
+                        <input class="field-input" type="text" id="destination" placeholder="e.g. Panama City" autocomplete="off">
+                        <span class="field-error" id="destinationError"></span>
+                    </div>
+
+                    <!-- TRAVEL DATES -->
+                    <div class="field-group">
+                        <label class="field-label">Travel Dates</label>
+                        <div class="two-col">
+                            <div>
+                                <label class="sub-label" for="startDate">Departure</label>
+                                <input class="field-input" type="date" id="startDate">
+                                <span class="field-error" id="startDateError"></span>
+                            </div>
+                            <div>
+                                <label class="sub-label" for="endDate">Return</label>
+                                <input class="field-input" type="date" id="endDate">
+                                <span class="field-error" id="endDateError"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TRAVELERS (Standard mode only) -->
+                    <div class="field-group" id="travelerFieldsStandard">
+                        <label class="field-label">Travelers</label>
+                        <div class="two-col">
+                            <div>
+                                <label class="sub-label" for="adults">Adults</label>
+                                <input class="field-input" type="number" id="adults" placeholder="0" min="0" value="2">
+                                <span class="field-error" id="adultsError"></span>
+                            </div>
+                            <div>
+                                <label class="sub-label" for="children">Children</label>
+                                <input class="field-input" type="number" id="children" placeholder="0" min="0" value="0">
+                                <span class="field-error" id="childrenError"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FLIGHT PRICE (Standard) -->
+                    <div class="field-group" id="flightFieldStandard">
+                        <label class="field-label" for="flightPrice">Flight Price (USD) <span class="label-hint">— per person, without bags</span></label>
+                        <input class="field-input" type="number" id="flightPrice" placeholder="0.00" min="0" step="0.01">
+                        <span class="field-error" id="flightPriceError"></span>
+                        <div style="margin-top:10px;">
+                            <label class="sub-label" for="flightPriceWithBags">Flight Price with Bags (USD) <span class="label-hint">— per person</span></label>
+                            <input class="field-input" type="number" id="flightPriceWithBags" placeholder="0.00" min="0" step="0.01">
+                            <span class="field-error" id="flightPriceWithBagsError"></span>
+                        </div>
+                    </div>
+
+                    <!-- OCCUPANCY SELECTOR (Group mode) -->
+                    <div class="field-group hidden" id="occupancySelector">
+                        <label class="field-label">Select Occupancies</label>
+                        <div class="occupancy-checks">
+                            <label class="occ-check"><input type="checkbox" name="occ" value="1" onchange="renderOccupancyInputs()"> Single</label>
+                            <label class="occ-check"><input type="checkbox" name="occ" value="2" checked onchange="renderOccupancyInputs()"> Double</label>
+                            <label class="occ-check"><input type="checkbox" name="occ" value="3" onchange="renderOccupancyInputs()"> Triple</label>
+                            <label class="occ-check"><input type="checkbox" name="occ" value="4" onchange="renderOccupancyInputs()"> Quad</label>
+                            <label class="occ-check"><input type="checkbox" name="occ" value="5" onchange="renderOccupancyInputs()"> Quint</label>
+                        </div>
+                    </div>
+
+                    <!-- HOTELS -->
+                    <div class="field-group">
+                        <label class="field-label">Hotel Options</label>
+                        <div id="hotelContainer"></div>
+                        <button type="button" class="btn-ghost" id="addHotelBtn" onclick="addHotel()">+ Add Hotel</button>
+                    </div>
+
+                    <!-- GROUP DEPOSIT (Group mode only) -->
+                    <div class="field-group hidden" id="groupDepositField">
+                        <label class="field-label" for="groupDeposit">Deposit per Person (USD) <span class="label-hint">— group quotes</span></label>
+                        <input class="field-input" type="number" id="groupDeposit" placeholder="0.00" min="0" step="0.01">
+                    </div>
+
+                    <button type="button" class="btn-generate" onclick="generateQuote()">
+                        <span>Generate Quote</span>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+
+                </form>
+            </section>
+
+            <!-- RIGHT: OUTPUT PANEL -->
+            <section class="panel output-panel">
+                <div class="output-toolbar">
+                    <span class="output-label">Generated Quote</span>
+                    <button class="btn-copy" onclick="copyQuote()" id="copyBtn">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="output-body" id="quoteOutput">
+                    <p class="output-placeholder">Fill in the form and click <em>Generate Quote</em> to create your package quotation.</p>
+                </div>
+                <div class="copy-toast" id="copyToast">Copied to clipboard ✓</div>
+            </section>
+
+        </main>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
