@@ -424,9 +424,10 @@ function buildStandardQuote(dest, dateRange, deadline) {
 
     // Deposit per person (use no-bags flight + first hotel as reference)
     const refHp = hotelIds.length > 0
-        ? parseFloat(document.getElementById(`hotelPrice-${hotelIds[0]}`)?.value || 0)
-        : 0;
-    const depPerPerson = calcDepositPP(fpNoBags, refHp, adults, children);
+    ? parseFloat(document.getElementById(`hotelPrice-${hotelIds[0]}`)?.value || 0)
+    : 0;
+const depNoBags   = calcDepositPP(fpNoBags, refHp, adults, children);
+const depWithBags = calcDepositPP(fpWithBags, refHp, adults, children);
 
     return [
         'BIMSHIRE CONCIERGE',
