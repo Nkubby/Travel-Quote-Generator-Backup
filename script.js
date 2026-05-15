@@ -336,7 +336,6 @@ function validateForm() {
     if (mode === 'group') {
         const occs = getSelectedOccupancies();
         if (occs.length === 0) {
-            showErr('destinationError', ''); // no dedicated field; alert
             ok = false;
             alert('Select at least one occupancy type for group mode.');
         }
