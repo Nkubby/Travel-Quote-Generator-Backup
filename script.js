@@ -557,7 +557,8 @@ function buildGroupQuote(dest, dateRange, deadline) {
 // ─── DEPOSIT HELPERS ──────────────────────────────────────────
 
 function calcDepositPP(flightPP, hotelPP, adults, children) {
-    // Deposit = roughly 25% of per-person package price, rounded
+    const total = adults + children;
+    if (total === 0) return 0;
     const { perPerson } = calcStandard(flightPP, hotelPP, adults, children);
     return Math.ceil(parseFloat(perPerson) * 0.25);
 }
