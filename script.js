@@ -412,9 +412,6 @@ function buildStandardQuote(dest, dateRange, deadline) {
         travelerText += `${children} Child${children > 1 ? 'ren' : ''}`;
     }
 
-    const depositAmount = calcDepositAmount(fpNoBags, hotelIds.length > 0
-        ? parseFloat(document.getElementById(`hotelPrice-${hotelIds[0]}`)?.value || 0)
-        : 0, adults, children);
 
     // Build hotel blocks
     function hotelBlock(flightPerPerson) {
@@ -566,10 +563,6 @@ function calcDepositPP(flightPP, hotelPP, adults, children) {
     return Math.ceil(parseFloat(perPerson) * 0.25);
 }
 
-function calcDepositAmount(flightPP, hotelPP, adults, children) {
-    const { finalTotal } = calcStandard(flightPP, hotelPP, adults, children);
-    return Math.ceil(finalTotal * 0.25);
-}
 
 // ─── COPY TO CLIPBOARD ────────────────────────────────────────
 
