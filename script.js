@@ -272,10 +272,15 @@ function validateDates() {
     return true;
 }
 
+function parseLocalDate(str) {
+    const [y, m, d] = str.split('-').map(Number);
+    return new Date(y, m - 1, d);
+}
+
 function formatDateRange(startStr, endStr) {
     const opts = { month: 'long', day: 'numeric', year: 'numeric' };
-    const s = new Date(startStr);
-    const e = new Date(endStr);
+    const s = parseLocalDate(startStr);
+    const e = parseLocalDate(endStr);
     const sfmt = s.toLocaleDateString('en-US', opts);
     const efmt = e.toLocaleDateString('en-US', opts);
 
@@ -289,11 +294,11 @@ function formatDateRange(startStr, endStr) {
 }
 
 function depositDeadline(startStr) {
-    const d = new Date(startStr);
-    d.setMonth(d.getMonth() - 3);
-    return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    const [y, m, d] = startStr.split('-').map(Number);
+    const dt = new Date(y, m - 1, d);
+    dt.setMonth(dt.getMonth() - 3);
+    return dt.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 }
-
 // ─── VALIDATION HELPERS ───────────────────────────────────────
 
 function showErr(id, msg) {
